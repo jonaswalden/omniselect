@@ -1,4 +1,3 @@
-import $ from 'selectors';
 import css from '../../utils/css-template-literal.js';
 
 export default css`

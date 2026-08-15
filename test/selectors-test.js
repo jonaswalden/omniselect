@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import { describe, test } from 'node:test';
 import { inspect } from 'node:util';
 
-import $ from '../selectors.js';
+import $, { $n, $q } from '../selectors.js';
 import mangle from '../mangle.js';
 
 describe('selectors', () => {
@@ -41,5 +41,17 @@ describe('selectors', () => {
     assert.doesNotThrow(() => Object.prototype.toString.call($.list));
     assert.doesNotThrow(() => inspect($.list));
     assert.strictEqual($.list[Symbol.iterator], undefined);
+  });
+
+  describe('$n', () => {
+    test('returns a name', () => {
+      assert.equal($n.list.item, mangle('list-item'));
+    });
+  });
+
+  describe('$q', () => {
+    test('returns a CSS selector', () => {
+      assert.equal($q.list.item, '.' + mangle('list-item'));
+    });
   });
 });

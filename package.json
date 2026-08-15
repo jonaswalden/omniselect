@@ -1,0 +1,11 @@
+{
+  "name": "selectors",
+  "version": "1.0.0",
+  "description": "Deterministic selector factory",
+  "license": "ISC",
+  "type": "module",
+  "main": "selectors.js",
+  "scripts": {
+    "test": "node --test test/*-test.js"
+  }
+}

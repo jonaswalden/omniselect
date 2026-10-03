@@ -1,16 +1,21 @@
-import path from "node:path";
+import assert from 'node:assert';
+import fs from 'node:fs/promises';
 import esbuild from 'esbuild';
+import selectors from 'selectors/esbuild';
 
 await esbuild.build({
   entryPoints: [
-    'ui/pages/**/*.jsx',
+    `ui/pages/**/*.css.js`,
+    `ui/pages/**/*.mjs`,
   ],
   outdir: 'ui/dist',
   bundle: true,
-  format: 'iife',
   plugins: [
     cssjs(),
-    mjs(),
+    selectors({
+      include: /\.mjs$/,
+      onReport: checkResidual,
+    })
   ],
 });
 
@@ -18,37 +23,25 @@ function cssjs() {
   return {
     name: 'cssjs',
     setup(build) {
+      build.initialOptions.metafile = true;
+
       build.onLoad({ filter: /\.css\.js$/ }, async (args) => {
         const { default: contents } = await import(args.path);
         return { contents, loader: 'css' };
+      });
+
+      build.onEnd(async (result) => {
+        const duplicated = Object.keys(result.metafile?.outputs ?? {})
+          .filter((file) => file.endsWith('.css.css'));
+
+        await Promise.all(duplicated.map((file) => {
+          return fs.rename(file, file.replace(/\.css$/, ''));
+        }));
       });
     }
   };
 }
 
-function mjs() {
-  return {
-    name: 'mjs',
-    setup(build) {
-      build.initialOptions.metafile = true;
-      build.initialOptions.loader ??= {};
-      build.initialOptions.loader['.mjs'] = 'empty';
-
-      build.onEnd(async result => {
-        console.log(JSON.stringify(result.metafile, null, 2))
-      });
-    }
-  };
-
-  function getInputsByOutput(outputs) {
-    return Object.values(outputs)
-      .filter(output => output.entryPoint?.endsWith('.jsx'))
-      .map(output => {
-        return [
-          output.entryPoint,
-          Object.keys(output.inputs)
-            // .filter(input => input.endsWith('.mjs'))
-        ];
-      })
-  }
+function checkResidual({ residual }) {
+  assert.deepEqual(residual, []);
 }

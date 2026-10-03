@@ -1,6 +1,4 @@
 import $ from 'selectors';
-import './list.css.js';
-import './list.mjs';
 
 const items = [
   'What is your name?',

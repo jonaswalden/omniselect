@@ -1,9 +1,8 @@
 import $ from 'selectors';
-import './widget-area.css';
 
 export default function WidgetArea(props) {
   const {
-    tagName = Tag,
+    tagName: Tag = 'div',
     className,
     children,
     ...attrs

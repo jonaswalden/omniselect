@@ -1,4 +1,5 @@
 import $ from 'selectors';
+import '../../components/list/list.mjs';
 
 article(document);
 

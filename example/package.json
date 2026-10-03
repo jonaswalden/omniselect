@@ -9,7 +9,7 @@
     "prebuild": "rm -rf ui/dist",
     "build": "node scripts/build.js",
     "pretest": "npm run build",
-    "test": "mocha test"
+    "test": "node --test test/*-test.js"
   },
   "dependencies": {
     "esbuild": "^0.28.2",

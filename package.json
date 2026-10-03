@@ -5,7 +5,38 @@
   "license": "ISC",
   "type": "module",
   "main": "selectors.js",
+  "files": [
+    "selectors.js",
+    "mangle.js",
+    "transform.js",
+    "vite.js",
+    "rollup.js",
+    "rolldown.js",
+    "esbuild.js",
+    "webpack-loader.js",
+    "README.md"
+  ],
   "scripts": {
     "test": "node --test test/*-test.js"
+  },
+  "exports": {
+    ".": "./selectors.js",
+    "./mangle": "./mangle.js",
+    "./transform": "./transform.js",
+    "./vite": "./vite.js",
+    "./rollup": "./rollup.js",
+    "./rolldown": "./rolldown.js",
+    "./esbuild": "./esbuild.js",
+    "./webpack-loader": "./webpack-loader.js",
+    "./package.json": "./package.json",
+    "./*": "./*"
+  },
+  "dependencies": {
+    "magic-string": "^1.4.2",
+    "oxc-parser": "^0.152.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "rollup": "^4.63.4"
   }
 }

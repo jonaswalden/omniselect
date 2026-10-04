@@ -3,9 +3,7 @@
 // like. A fixture containing a template literal escapes its backticks and
 // `\${`, which the tag receives already unescaped.
 export function js (strings, ...values) {
-  const source = strings.reduce((out, string, index) => {
-    return out + values[index - 1] + string;
-  });
+  const source = String.raw({ raw: strings }, ...values)
 
   const lines = source.split('\n');
   if (lines[0].trim() === '') lines.shift();

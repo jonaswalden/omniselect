@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { after } from 'node:test';
 
-import { js } from './js.js';
+import { js } from './syntax-template-literals.js';
 
 export const ENTRY = js`
   import $ from 'selectors';

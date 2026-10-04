@@ -3,7 +3,7 @@ import { describe, test } from 'node:test';
 
 import transformSource, { clean, matches } from '../transform.js';
 import $, { $q } from '../selectors.js';
-import { js } from './utils/js.js';
+import { js } from './utils/syntax-template-literals.js';
 
 function transform (source, { filename = 'a.jsx', ...options } = {}) {
   return transformSource(source, filename, options);

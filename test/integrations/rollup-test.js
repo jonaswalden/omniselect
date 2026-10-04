@@ -6,7 +6,7 @@ import { rollup } from 'rollup';
 import rollupSelectors from '../../integrations/rollup.js';
 import $ from '../../selectors.js';
 import { DYNAMIC, ENTRY, fixture } from '../utils/fixture.js';
-import { js } from '../utils/js.js';
+import { js } from '../utils/syntax-template-literals.js';
 
 // 'selectors' is marked external, so a residual import resolves to nothing
 // rather than failing the build. A fully inlined file never reaches resolution

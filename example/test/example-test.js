@@ -1,9 +1,8 @@
 import $ from 'selectors';
 import assert from 'node:assert';
 import { describe, test } from 'node:test';
-import { Window } from 'happy-dom';
 
-import '../server.js';
+import { Window } from './utils/happy-dom.js';
 
 describe('example app', () => {
   test('loads document with predictable class names', async () => {

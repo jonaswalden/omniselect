@@ -9,7 +9,8 @@
     "prebuild": "rm -rf ui/dist",
     "build": "node scripts/build.js",
     "pretest": "npm run build",
-    "test": "node --test test/*-test.js"
+    "start": "node --import ./scripts/jsx-hooks.js server.js",
+    "test": "node --test --test-global-setup=test/global-setup.js test/*-test.js"
   },
   "dependencies": {
     "esbuild": "^0.28.2",

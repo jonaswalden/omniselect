@@ -10,6 +10,7 @@ await esbuild.build({
   ],
   outdir: 'ui/dist',
   bundle: true,
+  sourcemap: 'inline',
   plugins: [
     cssjs(),
     selectors({

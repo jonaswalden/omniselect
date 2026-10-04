@@ -1,9 +1,9 @@
 import assert from 'node:assert';
 import { describe, test } from 'node:test';
 
-import transformSource from '../transform.js';
+import transformSource, { clean, matches } from '../transform.js';
 import $, { $q } from '../selectors.js';
-import { js } from './dedent.js';
+import { js } from './utils/js.js';
 
 function transform (source, { filename = 'a.jsx', ...options } = {}) {
   return transformSource(source, filename, options);
@@ -285,5 +285,30 @@ describe('transform', () => {
         );
       });
     }
+  });
+
+  describe('file filtering', () => {
+    test('includes source files and skips everything else', () => {
+      for (const id of ['a.js', 'a.mjs', 'a.cjs', 'a.jsx', 'a.ts', 'a.mts', 'a.tsx']) {
+        assert.ok(matches(`/app/${id}`), id);
+      }
+
+      for (const id of ['a.css', 'a.json', 'a.svg', 'a.vue']) {
+        assert.ok(!matches(`/app/${id}`), id);
+      }
+
+      assert.ok(!matches('/app/node_modules/dep/index.js'));
+    });
+
+    test('ignores the query string a bundler appends to a module id', () => {
+      assert.ok(matches('/app/a.jsx?v=abc123'));
+      assert.ok(!matches('/app/a.css?direct'));
+      assert.strictEqual(clean('/app/a.jsx?v=abc123'), '/app/a.jsx');
+    });
+
+    test('takes an include and exclude override', () => {
+      assert.ok(matches('/app/a.vue', { include: /\.vue$/ }));
+      assert.ok(!matches('/app/vendor/a.js', { exclude: /vendor/ }));
+    });
   });
 });

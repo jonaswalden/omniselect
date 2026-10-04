@@ -10,7 +10,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import transform, { INCLUDE, matches } from './transform.js';
+import transform, { INCLUDE, matches } from '../transform.js';
 
 const LOADERS = {
   '.js': 'js',

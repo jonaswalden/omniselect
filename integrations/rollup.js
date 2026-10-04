@@ -1,7 +1,7 @@
 // Rollup-style plugin, shared by Rollup and Rolldown. Vite wraps this and adds
 // `enforce: 'pre'`; see ./vite.js.
 
-import transform, { clean, matches } from './transform.js';
+import transform, { clean, matches } from '../transform.js';
 
 export default function selectors (options = {}) {
   const specifier = options.source ?? 'selectors';

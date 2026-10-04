@@ -14,7 +14,7 @@
 // `enforce: 'pre'` matters for the same reason it does in Vite — run before
 // babel-loader or ts-loader rewrites the import.
 
-import transform, { matches } from './transform.js';
+import transform, { matches } from '../transform.js';
 
 export default function selectorsLoader (source, map, meta) {
   const options = this.getOptions?.() ?? {};

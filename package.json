@@ -9,27 +9,19 @@
     "selectors.js",
     "mangle.js",
     "transform.js",
-    "vite.js",
-    "rollup.js",
-    "rolldown.js",
-    "esbuild.js",
-    "webpack-loader.js",
-    "README.md"
+    "integrations/"
   ],
   "scripts": {
-    "test": "node --test test/*-test.js"
+    "test": "node --test 'test/**/*-test.js'"
   },
   "exports": {
     ".": "./selectors.js",
-    "./mangle": "./mangle.js",
-    "./transform": "./transform.js",
-    "./vite": "./vite.js",
-    "./rollup": "./rollup.js",
-    "./rolldown": "./rolldown.js",
-    "./esbuild": "./esbuild.js",
-    "./webpack-loader": "./webpack-loader.js",
-    "./package.json": "./package.json",
-    "./*": "./*"
+    "./transform.js": "./transform.js",
+    "./vite": "./integrations/vite.js",
+    "./rollup": "./integrations/rollup.js",
+    "./rolldown": "./integrations/rolldown.js",
+    "./esbuild": "./integrations/esbuild.js",
+    "./webpack-loader": "./integrations/webpack-loader.js"
   },
   "dependencies": {
     "magic-string": "^1.4.2",

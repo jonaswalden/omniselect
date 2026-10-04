@@ -22,8 +22,8 @@
 // would produce wrong code, so every uncertain case widens the shadow instead
 // of narrowing it.
 //
-// Bundler adapters live next door: ./vite.js, ./rollup.js, ./rolldown.js,
-// ./esbuild.js and ./webpack-loader.js. All of them call transform() below.
+// Bundler integrations live in ./integrations: vite.js, rollup.js, rolldown.js,
+// esbuild.js and webpack-loader.js. All of them call transform() below.
 
 import MagicString from 'magic-string';
 import { parseSync, visitorKeys } from 'oxc-parser';

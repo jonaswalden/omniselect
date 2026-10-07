@@ -1,5 +1,5 @@
 {
-  "name": "selectors",
+  "name": "omniselect",
   "version": "1.0.0",
   "description": "Deterministic selector factory",
   "license": "ISC",

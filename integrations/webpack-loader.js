@@ -8,7 +8,7 @@
 //     test: /\.[cm]?[jt]sx?$/,
 //     exclude: /node_modules/,
 //     enforce: 'pre',
-//     use: { loader: 'selectors/webpack-loader' },
+//     use: { loader: 'omniselect/webpack-loader' },
 //   }
 //
 // `enforce: 'pre'` matters for the same reason it does in Vite — run before
@@ -18,7 +18,7 @@ import transform, { matches } from '../transform.js';
 
 export default function selectorsLoader (source, map, meta) {
   const options = this.getOptions?.() ?? {};
-  const specifier = options.source ?? 'selectors';
+  const specifier = options.source ?? 'omniselect';
 
   this.cacheable?.(true);
 

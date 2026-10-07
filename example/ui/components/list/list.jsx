@@ -1,4 +1,4 @@
-import $ from 'selectors';
+import $ from 'omniselect';
 
 const items = [
   'What is your name?',

@@ -1,5 +1,5 @@
 {
-  "name": "selectors-example-app",
+  "name": "omniselect-example-app",
   "version": "1.0.0",
   "description": "Proves the selector factory across SSR, CSS-in-JS and client script",
   "license": "ISC",
@@ -17,6 +17,6 @@
     "happy-dom": "^20.0.11",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "selectors": "file:.."
+    "omniselect": "file:.."
   }
 }

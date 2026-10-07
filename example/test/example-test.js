@@ -1,4 +1,4 @@
-import $ from 'selectors';
+import $ from 'omniselect';
 import assert from 'node:assert';
 import { describe, test } from 'node:test';
 

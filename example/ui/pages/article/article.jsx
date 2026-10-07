@@ -1,4 +1,4 @@
-import $ from 'selectors';
+import $ from 'omniselect';
 import WidgetArea from '../../components/widget-area/widget-area.jsx';
 import List from '../../components/list/list.jsx';
 

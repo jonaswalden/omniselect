@@ -68,7 +68,7 @@ export function matches (id, { include = INCLUDE, exclude = EXCLUDE } = {}) {
 }
 
 export default function transform (source, filename = 'input.js', options = {}) {
-  const specifier = options.source ?? 'selectors';
+  const specifier = options.source ?? 'omniselect';
 
   const { program, errors } = parseSync(filename, source);
 

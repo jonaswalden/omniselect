@@ -1,4 +1,4 @@
-import $ from 'selectors';
+import $ from 'omniselect';
 
 export default function WidgetArea(props) {
   const {

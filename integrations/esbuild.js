@@ -24,10 +24,10 @@ const LOADERS = {
 };
 
 export default function selectors (options = {}) {
-  const specifier = options.source ?? 'selectors';
+  const specifier = options.source ?? 'omniselect';
 
   return {
-    name: 'selectors',
+    name: 'omniselect',
 
     setup (build) {
       const sourcemap = Boolean(build.initialOptions.sourcemap);

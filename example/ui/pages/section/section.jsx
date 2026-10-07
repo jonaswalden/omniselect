@@ -1,4 +1,4 @@
-import $ from 'selectors';
+import $ from 'omniselect';
 import List from '../../components/list/list.jsx';
 
 export default function Section() {

@@ -9,7 +9,7 @@ import $ from '../../selectors.js';
 import { DYNAMIC, ENTRY, fixture } from '../utils/fixture.js';
 import { js } from '../utils/syntax-template-literals.js';
 
-// 'selectors' is marked external, so a residual import resolves to nothing
+// 'omniselect' is marked external, so a residual import resolves to nothing
 // rather than failing the build. A fully inlined file never reaches resolution
 // at all — the import is gone before the bundler looks for it.
 describe('esbuild', () => {
@@ -22,7 +22,7 @@ describe('esbuild', () => {
       sourcemap,
       // esbuild only emits a separate .map when it knows where output goes.
       outdir: path.join(path.dirname(entry), 'dist'),
-      external: ['selectors'],
+      external: ['omniselect'],
       plugins: [plugin ?? esbuildSelectors()],
     });
     return result.outputFiles;
@@ -33,13 +33,13 @@ describe('esbuild', () => {
     const [out] = await bundle(file('entry.js'));
 
     assert.match(out.text, new RegExp(`getElementsByClassName\\("${$.list.item}"\\)`));
-    assert.doesNotMatch(out.text, /selectors/);
+    assert.doesNotMatch(out.text, /omniselect/);
   });
 
   test('picks the loader from the extension', async () => {
     const file = await fixture({
       'entry.jsx': js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         export const El = () => <li className={$.list.item} />;
       `,
@@ -48,13 +48,13 @@ describe('esbuild', () => {
     const [out] = await bundle(file('entry.jsx'));
 
     assert.match(out.text, new RegExp(`className: "${$.list.item}"`));
-    assert.doesNotMatch(out.text, /selectors/);
+    assert.doesNotMatch(out.text, /omniselect/);
   });
 
   test('handles TypeScript', async () => {
     const file = await fixture({
       'entry.ts': js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         export const el = <HTMLElement>document.querySelector('.' + $.list);
       `,
@@ -69,7 +69,7 @@ describe('esbuild', () => {
     const file = await fixture({ 'entry.js': DYNAMIC });
     const [out] = await bundle(file('entry.js'));
 
-    assert.match(out.text, /from ['"]selectors['"]/);
+    assert.match(out.text, /from ['"]omniselect['"]/);
   });
 
   test('carries a sourcemap through the load hook', async () => {

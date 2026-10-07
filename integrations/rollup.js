@@ -4,10 +4,10 @@
 import transform, { clean, matches } from '../transform.js';
 
 export default function selectors (options = {}) {
-  const specifier = options.source ?? 'selectors';
+  const specifier = options.source ?? 'omniselect';
 
   return {
-    name: 'selectors',
+    name: 'omniselect',
 
     transform (code, id) {
       if (!matches(id, options)) return null;

@@ -16,7 +16,7 @@ function reasons (residual) {
 describe('transform', () => {
   test('inlines a chain as its class name', () => {
     const { code } = transform(js`
-      import $ from 'selectors';
+      import $ from 'omniselect';
 
       find($.list.item);
     `);
@@ -26,17 +26,17 @@ describe('transform', () => {
 
   test('drops the import once every reference is inlined', () => {
     const { code } = transform(js`
-      import $ from 'selectors';
+      import $ from 'omniselect';
 
       find($.list);
     `);
 
-    assert.doesNotMatch(code, /selectors/);
+    assert.doesNotMatch(code, /omniselect/);
   });
 
   test('inlines named exports, including aliased ones', () => {
     const { code } = transform(js`
-      import { $n, $q as q } from 'selectors';
+      import { $n, $q as q } from 'omniselect';
 
       find($n.list, q.list);
     `);
@@ -46,7 +46,7 @@ describe('transform', () => {
 
   test('inlines inside JSX and template literals', () => {
     const { code } = transform(js`
-      import $ from 'selectors';
+      import $ from 'omniselect';
 
       const el = <li className={$.list.item} />;
       const sel = \`.\${$.list}\`;
@@ -58,7 +58,7 @@ describe('transform', () => {
 
   test('does not touch a shadowed binding', () => {
     const { code } = transform(js`
-      import $ from 'selectors';
+      import $ from 'omniselect';
 
       function render ($) {
         return $.list;
@@ -72,12 +72,12 @@ describe('transform', () => {
 
     // A shadowed reference belongs to some other binding, so it places no
     // demand on the import and the import still goes.
-    assert.doesNotMatch(code, /from ['"]selectors['"]/);
+    assert.doesNotMatch(code, /from ['"]omniselect['"]/);
   });
 
   test('leaves chains mentioned in comments and strings alone', () => {
     const { code } = transform(js`
-      import $ from 'selectors';
+      import $ from 'omniselect';
 
       // $.list.item is the row
       const doc = "$.list.item";
@@ -91,7 +91,7 @@ describe('transform', () => {
 
   test('ends a chain at toString and valueOf', () => {
     const { code } = transform(js`
-      import $ from 'selectors';
+      import $ from 'omniselect';
 
       find($.list.toString(), $.list.item.valueOf());
     `);
@@ -120,7 +120,7 @@ describe('transform', () => {
 
   test('reports what it inlined', () => {
     const { inlined } = transform(js`
-      import $ from 'selectors';
+      import $ from 'omniselect';
 
       find($.list.item);
     `);
@@ -133,19 +133,19 @@ describe('transform', () => {
   describe('chains it cannot resolve', () => {
     test('keeps a computed segment and its import', () => {
       const { code, residual } = transform(js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         find($.list.item, $.list[key]);
       `);
 
-      assert.match(code, /import \$ from 'selectors'/);
+      assert.match(code, /import \$ from 'omniselect'/);
       assert.match(code, /find\("[^"]+", \$\.list\[key\]\)/);
       assert.deepStrictEqual(reasons(residual), ['dynamic']);
     });
 
     test('resolves a computed segment that is a string literal', () => {
       const { code } = transform(js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         find($['list'].item);
       `);
@@ -155,36 +155,36 @@ describe('transform', () => {
 
     test('keeps the root when it is passed as a value', () => {
       const { code } = transform(js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         find($, $.list);
       `);
 
-      assert.match(code, /import \$ from 'selectors'/);
+      assert.match(code, /import \$ from 'omniselect'/);
       assert.match(code, new RegExp(`find\\(\\$, "${$.list}"\\)`));
     });
 
     test('keeps the import for one root while inlining the other', () => {
       const { code } = transform(js`
-        import $n, { $q } from 'selectors';
+        import $n, { $q } from 'omniselect';
 
         find($n.list, $q[key]);
       `);
 
-      assert.match(code, /import \{ \$q \} from 'selectors';/);
+      assert.match(code, /import \{ \$q \} from 'omniselect';/);
       assert.match(code, new RegExp(`find\\("${$.list}", \\$q\\[key\\]\\)`));
     });
 
     test('keeps a reassigned root', () => {
       const { code, residual } = transform(js`
-        import $n, { $q } from 'selectors';
+        import $n, { $q } from 'omniselect';
 
         other = $n.list;
         $n = fallback;
         find($q.list);
       `);
 
-      assert.match(code, /import \$n from 'selectors';/);
+      assert.match(code, /import \$n from 'omniselect';/);
       assert.match(code, /other = \$n\.list/);
       assert.match(code, new RegExp(`find\\("\\${$q.list}"\\)`));
       assert.deepStrictEqual(reasons(residual), ['reassigned']);
@@ -192,8 +192,8 @@ describe('transform', () => {
 
     test('keeps a namespace import', () => {
       const { code, residual } = transform(js`
-        import * as selectors from 'selectors';
-        import $ from 'selectors';
+        import * as selectors from 'omniselect';
+        import $ from 'omniselect';
 
         find(selectors.$n.list, $.list);
       `);
@@ -206,7 +206,7 @@ describe('transform', () => {
   describe('output', () => {
     test('leaves every byte it did not rewrite exactly as it was', () => {
       const { code } = transform(js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         function render ( ) {
           return   $.list   ;
@@ -219,7 +219,7 @@ describe('transform', () => {
 
     test('parses TypeScript and TSX from the filename alone', () => {
       const ts = transform(js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         const el = <HTMLElement>document.querySelector('.' + $.list);
       `, { filename: 'a.ts' });
@@ -227,7 +227,7 @@ describe('transform', () => {
       assert.match(ts.code, new RegExp(`'\\.' \\+ "${$.list}"`));
 
       const tsx = transform(js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         const el = <li className={$.list.item} />;
       `, { filename: 'a.tsx' });
@@ -237,7 +237,7 @@ describe('transform', () => {
 
     test('returns a sourcemap for the edits it made', () => {
       const { map } = transform(js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         find($.list);
       `, { filename: 'app/a.js' });
@@ -248,7 +248,7 @@ describe('transform', () => {
     });
 
     test('leaves a syntax error for the bundler to report', () => {
-      const source = 'import $ from "selectors"; find($.';
+      const source = 'import $ from "omniselect"; find($.';
 
       assert.strictEqual(transform(source, { filename: 'a.js' }), null);
     });
@@ -275,7 +275,7 @@ describe('transform', () => {
 
     for (const [label, body] of Object.entries(cases)) {
       test(`does not inline through a ${label}`, () => {
-        const source = `import $ from 'selectors';\n${body}\n`;
+        const source = `import $ from 'omniselect';\n${body}\n`;
 
         // Nothing inlinable is left, so the transform declines the file whole.
         assert.strictEqual(

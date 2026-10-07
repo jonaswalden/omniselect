@@ -1,4 +1,4 @@
-import $ from 'selectors';
+import $ from 'omniselect';
 import '../../components/list/list.mjs';
 
 article(document);

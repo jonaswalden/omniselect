@@ -8,12 +8,12 @@ import $ from '../../selectors.js';
 import { DYNAMIC, ENTRY, fixture } from '../utils/fixture.js';
 import { js } from '../utils/syntax-template-literals.js';
 
-// 'selectors' is marked external, so a residual import resolves to nothing
+// 'omniselect' is marked external, so a residual import resolves to nothing
 // rather than failing the build. A fully inlined file never reaches resolution
 // at all — the import is gone before the bundler looks for it.
 describe('rollup', () => {
   async function bundle (entry, plugin = rollupSelectors()) {
-    const build = await rollup({ input: entry, external: ['selectors'], plugins: [plugin] });
+    const build = await rollup({ input: entry, external: ['omniselect'], plugins: [plugin] });
     const { output } = await build.generate({ format: 'esm', sourcemap: true });
     return output[0];
   }
@@ -23,7 +23,7 @@ describe('rollup', () => {
     const { code } = await bundle(file('entry.js'));
 
     assert.match(code, new RegExp(`getElementsByClassName\\("${$.list.item}"\\)`));
-    assert.doesNotMatch(code, /selectors/);
+    assert.doesNotMatch(code, /omniselect/);
   });
 
   test('inlines across a module boundary', async () => {
@@ -34,7 +34,7 @@ describe('rollup', () => {
         export const rows = document.getElementsByClassName(row);
       `,
       'row.js': js`
-        import $ from 'selectors';
+        import $ from 'omniselect';
 
         export const row = $.list.item;
       `,
@@ -43,14 +43,14 @@ describe('rollup', () => {
     const { code } = await bundle(file('entry.js'));
 
     assert.match(code, new RegExp(`"${$.list.item}"`));
-    assert.doesNotMatch(code, /selectors/);
+    assert.doesNotMatch(code, /omniselect/);
   });
 
   test('leaves the import in place for a chain it cannot resolve', async () => {
     const file = await fixture({ 'entry.js': DYNAMIC });
     const { code } = await bundle(file('entry.js'));
 
-    assert.match(code, /from ['"]selectors['"]/);
+    assert.match(code, /from ['"]omniselect['"]/);
   });
 
   test('produces a bundle sourcemap', async () => {

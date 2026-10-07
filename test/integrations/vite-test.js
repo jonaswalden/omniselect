@@ -9,7 +9,7 @@ describe('vite', () => {
   test('is the rollup plugin, ordered before the bundler transforms', () => {
     const plugin = viteSelectors();
 
-    assert.strictEqual(plugin.name, 'selectors');
+    assert.strictEqual(plugin.name, 'omniselect');
     assert.strictEqual(plugin.enforce, 'pre');
     assert.strictEqual(typeof plugin.transform, 'function');
   });

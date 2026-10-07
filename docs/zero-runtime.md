@@ -3,7 +3,7 @@
 A selector chain is a constant – the same path always resolves to the same class name. A build step can evaluate the chains and substitute string literals, so the factory never reaches the browser.
 
 ```jsx
-import $, { $q } from 'selectors';
+import $, { $q } from 'omniselect';
 
 const headline = <h2 className={$.todo.headline} />;
 const items = root.querySelectorAll($q.todo.item);
@@ -26,18 +26,18 @@ Ready made for some bundlers. All run before JSX/TS compilation, so chains are r
 
 ```js
 // vite.config.js
-import selectors from 'selectors/vite';
+import omniselect from 'omniselect/vite';
 
 export default {
-  plugins: [selectors()],
+  plugins: [omniselect()],
 };
 ```
 
-- esbuild: `selectors/esbuild`
-- Rolldown: `selectors/rolldown`
-- Rollup: `selectors/rollup`
-- Vite: `selectors/vite`
-- webpack, Rspack: `selectors/webpack-loader`
+- esbuild: `omniselect/esbuild`
+- Rolldown: `omniselect/rolldown`
+- Rollup: `omniselect/rollup`
+- Vite: `omniselect/vite`
+- webpack, Rspack: `omniselect/webpack-loader`
 
 > webpack has no plugin-level transform hook, so add the loader as a rule with `enforce: 'pre'`:
 
@@ -46,22 +46,22 @@ export default {
   test: /\.[cm]?[jt]sx?$/,
   exclude: /node_modules/,
   enforce: 'pre',
-  use: { loader: 'selectors/webpack-loader' },
+  use: { loader: 'omniselect/webpack-loader' },
 }
 ```
 
 #### Options
 
-- `source` – module specifier to look for. Default `'selectors'`.
+- `source` – module specifier to look for. Default `'omniselect'`.
 - `include` / `exclude` – file patterns. Defaults JS/TS/JSX/TSX, excluding `node_modules`.
 - `onReport({ id, inlined, residual })` – called per transformed file. `residual` lists chains left to the runtime, and why.
 
 ### Custom
 
-`selectors/transform.js` exposes the transform itself.
+`omniselect/transform.js` exposes the transform itself.
 
 ```js
-import transform from 'selectors/transform.js';
+import transform from 'omniselect/transform.js';
 
 const result = transform(source, 'todo.jsx');
 // null when there is nothing to inline

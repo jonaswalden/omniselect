@@ -1,4 +1,4 @@
-# selectors
+# omniselect
 
 A selector factory.
 
@@ -14,7 +14,7 @@ Runtime or build time.
 `$.name` results in a class name _selector_ – implicitly coalesces into a string.
 
 ```jsx
-import $ from 'selectors';
+import $ from 'omniselect';
 
 export default function Todo(props) {
   return <div className={$.todo}>
@@ -38,7 +38,7 @@ export default function Todo(props) {
 `$n` alias of `$n` results in a class name _selector_. `$q` results in a CSS _selector_ – class name prefixed with `.` 
 
 ```js
-import { $n, $q } from 'selectors';
+import { $n, $q } from 'omniselect';
 
 for (const elements of document.getElementByClassName($n.todo)) {
   todo(element);
@@ -57,7 +57,7 @@ Works with tagged template literals in JS.
 Simple replacement allows selector to be expressed without need for `${}` interpolation. Add to a basic template literal or a ready made one if it results in a string.
 
 ```js
-import { $q } from 'selectors';
+import { $q } from 'omniselect';
 
 export default css`
   $.todo { padding: 1em }
@@ -77,13 +77,13 @@ function css (strings, ...values) {
 
 ## Zero-runtime
 
-Runtime part of `selectors` is fairly small. Easy just to drop in and go. But better than runtime is zero-runtime. The `transform.js` module can inline the resulting _selectors_ into the code. There are also ready made integrations for some bundlers:
+Runtime part of `omniselect` is fairly small. Easy just to drop in and go. But better than runtime is zero-runtime. The `transform.js` module can inline the resulting _selectors_ into the code. There are also ready made integrations for some bundlers:
 
-- esbuild: `selectors/esbuild`
-- Rolldown: `selectors/rolldown`
-- Rollup: `selectors/rollup`
-- Vite: `selectors/vite`
-- webpack, Rspack: `selectors/webpack-loader`
+- esbuild: `omniselect/esbuild`
+- Rolldown: `omniselect/rolldown`
+- Rollup: `omniselect/rollup`
+- Vite: `omniselect/vite`
+- webpack, Rspack: `omniselect/webpack-loader`
 
 See [docs/zero-runtime.md](./docs/zero-runtime.md) for more details.
 

@@ -6,13 +6,13 @@ import { after } from 'node:test';
 import { js } from './syntax-template-literals.js';
 
 export const ENTRY = js`
-  import $ from 'selectors';
+  import $ from 'omniselect';
 
   export const rows = document.getElementsByClassName($.list.item);
 `;
 
 export const DYNAMIC = js`
-  import $ from 'selectors';
+  import $ from 'omniselect';
 
   export const pick = (key) => $.list[key];
 `;

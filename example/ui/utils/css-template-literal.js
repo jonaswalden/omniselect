@@ -1,4 +1,4 @@
-import { $q as $ } from 'selectors';
+import { $q as $ } from 'omniselect';
 
 export default function css(strings, ...values) {
   return String.raw({ raw: strings }, ...values)

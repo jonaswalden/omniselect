@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import fs from 'node:fs/promises';
 import esbuild from 'esbuild';
-import selectors from 'selectors/esbuild';
+import selectors from 'omniselect/esbuild';
 
 await esbuild.build({
   entryPoints: [

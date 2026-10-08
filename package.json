@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Deterministic selector factory",
   "license": "ISC",
+  "author": "Jonas Waldén",
   "type": "module",
   "main": "selectors.js",
   "files": [

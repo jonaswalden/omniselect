@@ -115,3 +115,7 @@ for (const [name, classes] of Object.entries(queryMethods)) {
   }
 }
 ```
+
+## License
+
+[ISC](LICENSE)

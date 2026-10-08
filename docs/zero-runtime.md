@@ -24,6 +24,12 @@ Anything that can't be resolved statically is left as is and handled by the runt
 
 Ready made for some bundlers. All run before JSX/TS compilation, so chains are read as written.
 
+The transform needs two parsing packages that runtime-only use doesn't, so they are optional peer dependencies – install them alongside:
+
+```sh
+npm install --save-dev oxc-parser magic-string
+```
+
 ```js
 // vite.config.js
 import omniselect from 'omniselect/vite';
@@ -58,10 +64,10 @@ export default {
 
 ### Custom
 
-`omniselect/transform.js` exposes the transform itself.
+`omniselect/transform` exposes the transform itself.
 
 ```js
-import transform from 'omniselect/transform.js';
+import transform from 'omniselect/transform';
 
 const result = transform(source, 'todo.jsx');
 // null when there is nothing to inline

@@ -3,9 +3,29 @@
 A selector factory.
 
 `$.list.item.headline` is a string-ish object that
-deterministically resolves to a minified class name `FfN52b`. Derivable from anywhere without shared state – templates, scripts, styles, tests.
+deterministically resolves to a minified class name `g43sYb`. Derivable from anywhere without shared state – templates, scripts, styles, tests.
 
-Runtime or build time. 
+Runtime or build time.
+
+> Early days: 0.x, the API may change between minor versions.
+
+## Install
+
+```sh
+npm install omniselect
+```
+
+For a zero-runtime setup install peer dependencies:
+
+```sh
+npm install --save-dev oxc-parser magic-string
+```
+
+## How names are made
+
+A chain is a path. `$.todo.headline` is the path `todo-headline`, hashed into a short CSS identifier. Same path, same name – in any file, process or build.
+
+Since segments are joined with `-`, `$['todo-headline']` and `$.todo.headline` are the same selector. Computed segments `$.todo[state]` work in runtime.
 
 ## Usage
 
@@ -25,7 +45,7 @@ export default function Todo(props) {
       {props.items.map((item) =>
         <li className={$.todo.item}>
           <input type="checkbox" checked={item.done} />
-          {item.decription}
+          {item.description}
         </li>
       )}
     </ol>
@@ -35,12 +55,14 @@ export default function Todo(props) {
 
 ### Scripts
 
-`$n` alias of `$n` results in a class name _selector_. `$q` results in a CSS _selector_ – class name prefixed with `.` 
+`$n`, aliased as `$` results in a class name _selector_. 
+
+`$q` results in a CSS _selector_ – a class selector prefixed with `.`.
 
 ```js
 import { $n, $q } from 'omniselect';
 
-for (const elements of document.getElementByClassName($n.todo)) {
+for (const element of document.getElementsByClassName($n.todo)) {
   todo(element);
 }
 
@@ -54,7 +76,7 @@ export default function todo (element) {
 
 Works with tagged template literals in JS.
 
-Simple replacement allows selector to be expressed without need for `${}` interpolation. Add to a basic template literal or a ready made one if it results in a string.
+Simple replacement allows selector to be expressed without need for `${}` interpolation. Add to a basic template literal or a ready made one if it results in a string. The `$` in the CSS is only a placeholder – the tag resolves each chain through `$q`.
 
 ```js
 import { $q } from 'omniselect';
@@ -77,7 +99,7 @@ function css (strings, ...values) {
 
 ## Zero-runtime
 
-Runtime part of `omniselect` is fairly small. Easy just to drop in and go. But better than runtime is zero-runtime. The `transform.js` module can inline the resulting _selectors_ into the code. There are also ready made integrations for some bundlers:
+Runtime part of `omniselect` is fairly small. Easy just to drop in and go. But better than runtime is zero-runtime. The `omniselect/transform` module can inline the resulting _selectors_ into the code. There are also ready made integrations for some bundlers:
 
 - esbuild: `omniselect/esbuild`
 - Rolldown: `omniselect/rolldown`
@@ -85,9 +107,26 @@ Runtime part of `omniselect` is fairly small. Easy just to drop in and go. But b
 - Vite: `omniselect/vite`
 - webpack, Rspack: `omniselect/webpack-loader`
 
+The transform needs two parsing packages that runtime-only use doesn't, so they are optional peer dependencies – install them alongside:
+
+```sh
+npm install --save-dev oxc-parser magic-string
+```
+
 See [docs/zero-runtime.md](./docs/zero-runtime.md) for more details.
 
 ## Gotchas worth knowing
+
+### A selector is an object, not a string
+
+At runtime a selector is an object that turns into a string when coerced – by a template literal, `+`, `==`, `String()` or a DOM method. Where nothing coerces it, it stays an object:
+
+- `$.todo === 'abc123'` is always `false`. `==` works.
+- `typeof $.todo` is `'object'`, though the types say `string`.
+- `JSON.stringify({ name: $.todo })` gives `{"name":{}}`, and `structuredClone` throws. Mind anything serialized – server rendered props, `postMessage`, storage.
+- As a `Map` or `Set` key it won't match its string.
+
+`String($.todo)` gives a real string. Chains inlined by the [zero-runtime](#zero-runtime) transform are real strings already.
 
 ### Happy DOM does not coerce DOM API arguments to strings
 
@@ -115,6 +154,10 @@ for (const [name, classes] of Object.entries(queryMethods)) {
   }
 }
 ```
+
+### Collisions are possible
+
+Names are a 32-bit hash of the path. Two paths producing the same name is unlikely at any ordinary number of selectors, but not impossible.
 
 ## License
 

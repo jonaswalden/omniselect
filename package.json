@@ -2,34 +2,73 @@
   "name": "omniselect",
   "version": "0.1.0",
   "description": "Deterministic selector factory",
+  "keywords": [
+    "css",
+    "class names",
+    "selectors",
+    "mangle",
+    "zero-runtime",
+    "vite-plugin",
+    "rollup-plugin",
+    "esbuild-plugin",
+    "webpack-loader"
+  ],
+  "homepage": "https://github.com/jonaswalden/omniselect#readme",
+  "bugs": "https://github.com/jonaswalden/omniselect/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonaswalden/omniselect.git"
+  },
   "license": "ISC",
   "author": "Jonas Waldén",
   "type": "module",
   "main": "selectors.js",
+  "types": "selectors.d.ts",
+  "sideEffects": false,
   "files": [
     "selectors.js",
+    "selectors.d.ts",
     "mangle.js",
     "transform.js",
-    "integrations/"
+    "transform.d.ts",
+    "integrations/",
+    "CHANGELOG.md"
   ],
+  "engines": {
+    "node": ">=22.12"
+  },
   "scripts": {
-    "test": "node --test 'test/**/*-test.js'"
+    "test": "node --test 'test/**/*-test.js'",
+    "prepublishOnly": "npm test"
   },
   "exports": {
-    ".": "./selectors.js",
-    "./transform.js": "./transform.js",
+    ".": {
+      "types": "./selectors.d.ts",
+      "default": "./selectors.js"
+    },
+    "./transform": "./transform.js",
     "./vite": "./integrations/vite.js",
     "./rollup": "./integrations/rollup.js",
     "./rolldown": "./integrations/rolldown.js",
     "./esbuild": "./integrations/esbuild.js",
     "./webpack-loader": "./integrations/webpack-loader.js"
   },
-  "dependencies": {
+  "peerDependencies": {
     "magic-string": "^1.4.2",
     "oxc-parser": "^0.152.0"
   },
+  "peerDependenciesMeta": {
+    "magic-string": {
+      "optional": true
+    },
+    "oxc-parser": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "esbuild": "^0.28.2",
+    "magic-string": "^1.4.2",
+    "oxc-parser": "^0.152.0",
     "rollup": "^4.63.4"
   }
 }
